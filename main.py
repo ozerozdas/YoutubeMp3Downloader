@@ -1,6 +1,6 @@
 from pytube import YouTube
 from tkinter import messagebox
-import tkinter
+import customtkinter
 import os
 
 def DownloadVideo(url, destination = './output'):
@@ -19,56 +19,32 @@ def DownloadVideo(url, destination = './output'):
 	return file
 
 def render():
-    m = tkinter.Tk()
-    print(m.tk.call("info", "patchlevel"))
-    m.title('Youtube Video Downloader')
-    
-    screen_width = m.winfo_screenwidth()
-    screen_height = m.winfo_screenheight()
-    x = (screen_width/2) - (500/2)
-    y = (screen_height/2) - (200/2)
-    m.geometry(f'500x200+{int(x)}+{int(y)}')
-    
-    m.resizable(False, False)
-    m.configure(
-        bg='black'
-	)
-    
-    label_1 = tkinter.Label(
-        m,
-        text='Enter the URL of the video you want to download: ',
-        bg='black',
-        fg='white',
-        font='Arial 12',
-        padx=10,
-        pady=20
-	)
-    label_1.pack()
-    
-    input_field = tkinter.Entry(
-        m,
-        width=50,
-        bg='black',
-        fg='white',
-        font='Arial 12',
-        bd=0,
-	)
-    input_field.pack()
-    
-    download_button = tkinter.Button(
-        m,
-        text='Download',
-        command=lambda: DownloadVideo(input_field.get()),
-        bg='black',
-        font='Arial 12',
-        padx=10,
-        pady=5
-	)
-    download_button.pack()
-    
-    m.mainloop()
+    customtkinter.set_appearance_mode("System")
+    customtkinter.set_default_color_theme("blue")
+
+    app = customtkinter.CTk()
+    app.title("Youtube Mp3 Downloader")
+
+    screen_width = app.winfo_screenwidth()
+    screen_height = app.winfo_screenheight()
+    x = (screen_width/2) - (400/2)
+    y = (screen_height/2) - (240/2)
+    app.geometry(f'400x240+{int(x)}+{int(y)}')
+
+    entry = customtkinter.CTkEntry(app, placeholder_text="Enter the URL of the video you want to download", width=360)
+    entry.place(relx=0.5, rely=0.3, anchor=customtkinter.CENTER)
+
+    def button_function():
+        if entry.get() == "":
+            messagebox.showerror("Error", "Please enter a valid URL.")
+            return
+        
+        DownloadVideo(entry.get())
+        entry.delete(0, customtkinter.END)
+
+    button = customtkinter.CTkButton(master=app, text="Download", command=button_function)
+    button.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
+
+    app.mainloop()
     
 render()
-
-# result = DownloadVideo(str(input("Enter the URL of the video you want to download: \n>> ")))
-# print(result + " has been successfully downloaded.")

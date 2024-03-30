@@ -1,2 +1,4 @@
 pytube==15.0.0
 tkinter==8.6.13
+setuptools==57.4.0
+customtinker==0.1.0
